@@ -10,6 +10,11 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import utils.Utils;
 
+/*
+ * 根据传入的表名tableName，列族colFamily
+ * 创建表
+ * */
+
 public class CreateTable {
 	
 	public static void createTable(String tableName, String[] colFamily) throws IOException {

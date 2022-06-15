@@ -1,7 +1,6 @@
 package main;
 
 import java.io.BufferedReader;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -30,42 +29,33 @@ public class DataClean {
 	static ArrayList<String[]> values = new ArrayList<>();
 	
 	public static void clean(String filePath) throws IOException {
+		Utils.init();
+		Table table = Utils.connection.getTable(TableName.valueOf(tableName));
 		File file  = new File(filePath);
-		DataInputStream in = new DataInputStream(new FileInputStream(file));
-		BufferedReader buf = new BufferedReader(new InputStreamReader(in));
+		FileInputStream in = new FileInputStream(file);
+		BufferedReader buf = new BufferedReader(new InputStreamReader(in,"utf-8"));
 		
 		String line;
-		int count = 0;
+		int count = 1;
+		String[] v = null;
+		String row = null;
 		while((line = buf.readLine())!=null) {
-			String[] v = line.split("\t| ");
-			String row = "SQ"+String.valueOf(count);
-			rows.add(row);
-			values.add(v);
+			if (count<1724266) {
+				v = line.split("\t| ");
+				row = "SQ"+String.valueOf(count);
+				Put put = new Put(row.getBytes());
+				for(int i = 0;i < ColFamily.length;i++){
+					String[] cols = ColFamily[i].split(":");
+					put.addColumn(Bytes.toBytes(cols[0]), Bytes.toBytes(cols[0]), Bytes.toBytes(v[i]));
+				}
+				table.put(put);
+			}
 			count++;
+			
 		}
 		buf.close();
 		in.close();
-		add();
-	}
-	
-	public static void add() throws IOException {
-		for (int i=0; i<rows.size(); i++) {
-			addRecord(tableName, rows.get(i), ColFamily, values.get(i));
-		}
-	}
-	
-	public static void addRecord(String tableName,String row,String[] fields,String[] values) throws IOException {
-		Utils.init();
-		Table table = Utils.connection.getTable(TableName.valueOf(tableName));
-		for(int i = 0;i < fields.length;i++){
-			Put put = new Put(row.getBytes());
-			String[] cols = fields[i].split(":");
-//			System.out.println(fields[i]);
-			put.addColumn(Bytes.toBytes(cols[0]), Bytes.toBytes(cols[0]), Bytes.toBytes(values[i]));
-			table.put(put);
-		}
 		table.close();
 		Utils.close();
 	}
-	
 }

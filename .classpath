@@ -69,7 +69,7 @@
 	<classpathentry kind="lib" path="/usr/local/hbase/lib/hbase-annotations-2.4.10-tests.jar"/>
 	<classpathentry kind="lib" path="/usr/local/hbase/lib/hbase-asyncfs-2.4.10.jar"/>
 	<classpathentry kind="lib" path="/usr/local/hbase/lib/hbase-asyncfs-2.4.10-tests.jar"/>
-	<classpathentry kind="lib" path="/usr/local/hbase/lib/hbase-client-2.4.10.jar"/>
+	<classpathentry kind="lib" path="/usr/local/hbase/lib/hbase-client-2.4.10.jar" sourcepath="/HBase"/>
 	<classpathentry kind="lib" path="/usr/local/hbase/lib/hbase-common-2.4.10.jar"/>
 	<classpathentry kind="lib" path="/usr/local/hbase/lib/hbase-common-2.4.10-tests.jar"/>
 	<classpathentry kind="lib" path="/usr/local/hbase/lib/hbase-endpoint-2.4.10.jar"/>

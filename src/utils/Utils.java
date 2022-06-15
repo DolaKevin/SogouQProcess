@@ -57,12 +57,13 @@ public class Utils {
 		return getTable("SogouQ");
 	}
 	
-	public static Table getTable(String name) {
-		
+	public static Table getTable(String tableName) {
+		init();
 		Table table = null;
+//		System.out.println(tableName);
 		try {
-			if(StringUtils.isEmpty(name)) return null;
-			table = connection.getTable(TableName.valueOf(name));
+			if(StringUtils.isEmpty(tableName)) return null;
+			table = connection.getTable(TableName.valueOf(tableName));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,13 +78,12 @@ public class Utils {
 			while(cellScanner.advance()) {
 				Cell cell = cellScanner.current();
 				
-				//列族
-				System.out.println(new String(CellUtil.cloneFamily(cell),"utf-8"));
-				//列名
-				System.out.println(new String(CellUtil.cloneQualifier(cell),"utf-8"));
-				//列值
-				System.out.println(new String(CellUtil.cloneValue(cell),"utf-8"));
+				//列族:列名=列值
+				System.out.println(new String(CellUtil.cloneFamily(cell),"utf-8")+
+						":"+new String(CellUtil.cloneQualifier(cell),"utf-8")+
+						"="+new String(CellUtil.cloneValue(cell),"utf-8"));
 			}
+			System.out.println();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
